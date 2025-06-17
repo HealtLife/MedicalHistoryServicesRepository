@@ -1,15 +1,19 @@
 package com.healthlifei.u20221b471.main.medicalhistoryservice.application.services;
 
+import com.healthlifei.u20221b471.main.medicalhistoryservice.application.dto.MedicalNotesRequestDto;
 import com.healthlifei.u20221b471.main.medicalhistoryservice.application.dto.PrescriptionRequestDto;
 
+import com.healthlifei.u20221b471.main.medicalhistoryservice.domain.model.aggregates.MedicalNotes;
 import com.healthlifei.u20221b471.main.medicalhistoryservice.domain.model.aggregates.Prescription;
 import com.healthlifei.u20221b471.main.medicalhistoryservice.domain.model.aggregates.personal_info;
 import com.healthlifei.u20221b471.main.medicalhistoryservice.infrastructure.persistance.jpa.PersonalInfoRepository;
 import com.healthlifei.u20221b471.main.medicalhistoryservice.infrastructure.persistance.jpa.PrescriptionRepository;
 import com.healthlifei.u20221b471.main.medicalhistoryservice.application.mapper.PrescriptionMapper;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -42,6 +46,15 @@ public class PrescriptionService {
         prescriptionRepository.save(prescription);
     }
 
+    public List<PrescriptionRequestDto> getPrescriptionByDni(String dni) {
+        List<Prescription> prescription = prescriptionRepository.findByDni(dni);
+        if (prescription.isEmpty()) {
+            throw new EntityNotFoundException("Paciente con DNI " + dni + " no tiene alergias registradas.");
+        }
+        return prescription.stream()
+                .map(mapper::toDto)
+                .toList(); // o .collect(Collectors.toList()) si estás usando Java 8
+    }
 }
 
 /*

@@ -1,16 +1,14 @@
 package com.healthlifei.u20221b471.main.medicalhistoryservice.interfaces;
 
-import com.healthlifei.u20221b471.main.medicalhistoryservice.application.dto.AllergyRequestDto;
-import com.healthlifei.u20221b471.main.medicalhistoryservice.application.dto.MedicalNotesRequestDto;
-import com.healthlifei.u20221b471.main.medicalhistoryservice.application.dto.PersonalInfoRequestDto;
-import com.healthlifei.u20221b471.main.medicalhistoryservice.application.dto.PrescriptionRequestDto;
-import com.healthlifei.u20221b471.main.medicalhistoryservice.application.services.AllergyService;
-import com.healthlifei.u20221b471.main.medicalhistoryservice.application.services.MedicalNotesService;
-import com.healthlifei.u20221b471.main.medicalhistoryservice.application.services.PersonalInfoService;
+import com.healthlifei.u20221b471.main.medicalhistoryservice.application.dto.*;
+import com.healthlifei.u20221b471.main.medicalhistoryservice.application.services.*;
 import com.healthlifei.u20221b471.main.medicalhistoryservice.domain.model.aggregates.MedicalNotes;
+import com.healthlifei.u20221b471.main.medicalhistoryservice.infrastructure.persistance.jpa.Vaccinerepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -20,14 +18,20 @@ public class medicalHistoryController {
     private final PersonalInfoService personalInfoService;
     private final MedicalNotesService medicalNotesService;
     private final AllergyService allergyService;
-    private final com.healthlifei.u20221b471.main.medicalhistoryservice.application.services.PrescriptionService prescriptionService;
+    private final PrescriptionService prescriptionService;
+    private final Vaccinerepository vaccinerepository;
+    private final VaccineService vaccineService;
+    private final WeigthHegthService weigthHegthService;
 
 
-    public medicalHistoryController(PersonalInfoService personalInfoService, MedicalNotesService medicalNotesService, AllergyService allergyService, com.healthlifei.u20221b471.main.medicalhistoryservice.application.services.PrescriptionService prescriptionService) {
+    public medicalHistoryController(PersonalInfoService personalInfoService, MedicalNotesService medicalNotesService, AllergyService allergyService, com.healthlifei.u20221b471.main.medicalhistoryservice.application.services.PrescriptionService prescriptionService, Vaccinerepository vaccinerepository, VaccineService vaccineService, WeigthHegthService weigthHegthService) {
         this.personalInfoService = personalInfoService;
         this.medicalNotesService = medicalNotesService;
         this.allergyService = allergyService;
         this.prescriptionService = prescriptionService;
+        this.vaccinerepository = vaccinerepository;
+        this.vaccineService = vaccineService;
+        this.weigthHegthService = weigthHegthService;
     }
 
     @PostMapping("/personal-info")
@@ -41,6 +45,11 @@ public class medicalHistoryController {
         personalInfoService.updatePersonalInfo(dni, dto);
     }
 
+    @GetMapping("/personal-info/{dni}")
+    public ResponseEntity<PersonalInfoRequestDto> getPersonalInfo(@PathVariable String dni) {
+        PersonalInfoRequestDto dto = personalInfoService.getPersonalInfoByDni(dni);
+        return ResponseEntity.ok(dto);
+    }
 
     @PostMapping("/medical-note")
     @ResponseStatus(HttpStatus.CREATED)
@@ -60,9 +69,48 @@ public class medicalHistoryController {
         allergyService.saveAllergy(dto);
     }
 
+    @GetMapping("/allergies/{dni}")
+    public ResponseEntity<List<AllergyRequestDto>> getAllergies(@PathVariable String dni) {
+        List<AllergyRequestDto> dtos = allergyService.getAllergiesByDni(dni);
+        return ResponseEntity.ok(dtos);
+    }
+
+
+
     @PostMapping("/prescription")
     @ResponseStatus(HttpStatus.CREATED)
     public void savePrescription(@RequestBody PrescriptionRequestDto dto) {
         prescriptionService.savePrescription(dto);
     }
+    @GetMapping("/prescription/{dni}")
+    public ResponseEntity<List<PrescriptionRequestDto>> getPrescriptions(@PathVariable String dni) {
+        List<PrescriptionRequestDto> dtos = prescriptionService.getPrescriptionByDni(dni);
+        return ResponseEntity.ok(dtos);
+    }
+
+    @PostMapping("/vaccine")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void saveVaccine(@RequestBody VaccineRequestDto dto) {
+        vaccineService.saveVaccine(dto);
+    }
+    @GetMapping("/vaccine/{dni}")
+    public ResponseEntity<List<VaccineRequestDto>> getVaccines(@PathVariable String dni) {
+        List<VaccineRequestDto> dtos = vaccineService.getVaccineByDni(dni);
+        return ResponseEntity.ok(dtos);
+    }
+
+    @PostMapping("/weightheight")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void saveWeightHeight(@RequestBody WeigthHegthDto dto) {
+        weigthHegthService.saveWeightHeight(dto);
+    }
+    @GetMapping("/weightheight/{dni}")
+    public ResponseEntity<List<WeigthHegthDto>> getWeightHeight(@PathVariable String dni) {
+        List<WeigthHegthDto> dtos = weigthHegthService.getWeightHeightByDni(dni);
+        return ResponseEntity.ok(dtos);
+    }
+
+
+
+
 }

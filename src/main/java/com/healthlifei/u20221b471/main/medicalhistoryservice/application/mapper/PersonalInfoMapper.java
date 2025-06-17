@@ -15,4 +15,15 @@ public class PersonalInfoMapper {
                 dto.getImc()
         );
     }
+    public PersonalInfoRequestDto toDto(personal_info entity) {
+        PersonalInfoRequestDto dto = new PersonalInfoRequestDto();
+        dto.setDni(entity.getDni());
+        dto.setFechaNacimiento(entity.getFechaNacimiento());
+        dto.setGenero(entity.getGenero());
+        dto.setTipoCuerpo(entity.getTipoCuerpo());
+        dto.setImc(entity.getImc());
+        return dto;
+    }
+
 }
+

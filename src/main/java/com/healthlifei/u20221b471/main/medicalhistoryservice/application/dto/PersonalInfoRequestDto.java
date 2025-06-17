@@ -9,6 +9,15 @@ public class PersonalInfoRequestDto {
     private String tipoCuerpo;
     private Double imc;
 
+
+
+
+
+
+    public PersonalInfoRequestDto() {
+
+    }
+
     public String getDni() {
         return dni;
     }

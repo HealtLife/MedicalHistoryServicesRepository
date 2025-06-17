@@ -1,46 +1,17 @@
-package com.healthlifei.u20221b471.main.medicalhistoryservice.domain.model.aggregates;
+package com.healthlifei.u20221b471.main.medicalhistoryservice.application.dto;
 
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name ="weight_height_history")
-public class WeightHeightHistory {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class WeigthHegthDto {
 
     private String dni;
-
     private Double peso;
-
     private Double altura;
-
-    @Column(name = "fecha_registro")
     private LocalDate fechaRegistro;
-
-
-    public WeightHeightHistory() {
-    }
-
-    public WeightHeightHistory(String dni, Double peso, Double altura, LocalDate fechaRegistro) {
-        this.dni = dni;
-        this.peso = peso;
-        this.altura = altura;
-        this.fechaRegistro = fechaRegistro;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getDni() {
         return dni;

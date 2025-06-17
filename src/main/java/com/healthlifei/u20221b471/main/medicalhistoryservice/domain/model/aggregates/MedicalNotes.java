@@ -29,6 +29,10 @@ public class MedicalNotes {
         this.autor = autor;
     }
 
+    public MedicalNotes() {
+
+    }
+
     public int getId() {
         return id;
     }

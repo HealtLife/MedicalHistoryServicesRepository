@@ -1,43 +1,15 @@
-package com.healthlifei.u20221b471.main.medicalhistoryservice.domain.model.aggregates;
+package com.healthlifei.u20221b471.main.medicalhistoryservice.application.dto;
 
-
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
 
 import java.time.LocalDate;
 
-@Entity
-@Table(name = "vaccines")
-public class Vaccine {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class VaccineRequestDto {
 
     private String dni;
-
     private String vacuna;
-
-    @Column(name = "fecha_aplicacion")
     private LocalDate fechaAplicacion;
-
     private String dosis;
-
-    public Vaccine() {
-    }
-
-    public Vaccine(String dni, String vacuna, LocalDate fechaAplicacion, String dosis) {
-        this.dni = dni;
-        this.vacuna = vacuna;
-        this.fechaAplicacion = fechaAplicacion;
-        this.dosis = dosis;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getDni() {
         return dni;

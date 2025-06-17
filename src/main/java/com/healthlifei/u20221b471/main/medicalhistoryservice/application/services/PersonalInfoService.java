@@ -44,5 +44,12 @@ public class PersonalInfoService {
         repository.save(existing);
     }
 
+    public PersonalInfoRequestDto getPersonalInfoByDni(String dni) {
+        personal_info entity = repository.findById(dni)
+                .orElseThrow(() -> new EntityNotFoundException("Paciente con DNI " + dni + " no encontrado"));
+        return mapper.toDto(entity);
+    }
+
+
 
 }

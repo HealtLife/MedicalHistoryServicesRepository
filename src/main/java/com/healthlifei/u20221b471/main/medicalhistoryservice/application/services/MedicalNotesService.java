@@ -1,14 +1,18 @@
 package com.healthlifei.u20221b471.main.medicalhistoryservice.application.services;
 
+import com.healthlifei.u20221b471.main.medicalhistoryservice.application.dto.AllergyRequestDto;
 import com.healthlifei.u20221b471.main.medicalhistoryservice.application.dto.MedicalNotesRequestDto;
 import com.healthlifei.u20221b471.main.medicalhistoryservice.application.mapper.MedicalNotesMapper;
+import com.healthlifei.u20221b471.main.medicalhistoryservice.domain.model.aggregates.Allergy;
 import com.healthlifei.u20221b471.main.medicalhistoryservice.domain.model.aggregates.MedicalNotes;
 import com.healthlifei.u20221b471.main.medicalhistoryservice.domain.model.aggregates.personal_info;
 import com.healthlifei.u20221b471.main.medicalhistoryservice.infrastructure.persistance.jpa.MedicalNotesRepository;
 import com.healthlifei.u20221b471.main.medicalhistoryservice.infrastructure.persistance.jpa.PersonalInfoRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -36,6 +40,16 @@ public class MedicalNotesService {
 
         // Guarda la nota médica
         medicalNotesRepository.save(note);
+    }
+
+    public List<MedicalNotesRequestDto> getMedicalNotesByDni(String dni) {
+        List<MedicalNotes> medical = medicalNotesRepository.findByDni(dni);
+        if (medical.isEmpty()) {
+            throw new EntityNotFoundException("Paciente con DNI " + dni + " no tiene alergias registradas.");
+        }
+        return medical.stream()
+                .map(mapper::toDto)
+                .toList(); // o .collect(Collectors.toList()) si estás usando Java 8
     }
 
 }

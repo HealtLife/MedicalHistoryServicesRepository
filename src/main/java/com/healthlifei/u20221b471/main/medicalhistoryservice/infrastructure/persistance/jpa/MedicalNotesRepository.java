@@ -4,7 +4,11 @@ import com.healthlifei.u20221b471.main.medicalhistoryservice.domain.model.aggreg
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
-public interface MedicalNotesRepository extends JpaRepository<MedicalNotes, Integer> {
+public interface MedicalNotesRepository extends JpaRepository<MedicalNotes, String> {
+
+    List<MedicalNotes> findByDni(String dni);
 
 }
