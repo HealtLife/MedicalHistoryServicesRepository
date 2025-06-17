@@ -3,6 +3,7 @@ package com.healthlifei.u20221b471.main.medicalhistoryservice.interfaces;
 import com.healthlifei.u20221b471.main.medicalhistoryservice.application.dto.AllergyRequestDto;
 import com.healthlifei.u20221b471.main.medicalhistoryservice.application.dto.MedicalNotesRequestDto;
 import com.healthlifei.u20221b471.main.medicalhistoryservice.application.dto.PersonalInfoRequestDto;
+import com.healthlifei.u20221b471.main.medicalhistoryservice.application.dto.PrescriptionRequestDto;
 import com.healthlifei.u20221b471.main.medicalhistoryservice.application.services.AllergyService;
 import com.healthlifei.u20221b471.main.medicalhistoryservice.application.services.MedicalNotesService;
 import com.healthlifei.u20221b471.main.medicalhistoryservice.application.services.PersonalInfoService;
@@ -19,12 +20,14 @@ public class medicalHistoryController {
     private final PersonalInfoService personalInfoService;
     private final MedicalNotesService medicalNotesService;
     private final AllergyService allergyService;
+    private final com.healthlifei.u20221b471.main.medicalhistoryservice.application.services.PrescriptionService prescriptionService;
 
 
-    public medicalHistoryController(PersonalInfoService personalInfoService, MedicalNotesService medicalNotesService, AllergyService allergyService) {
+    public medicalHistoryController(PersonalInfoService personalInfoService, MedicalNotesService medicalNotesService, AllergyService allergyService, com.healthlifei.u20221b471.main.medicalhistoryservice.application.services.PrescriptionService prescriptionService) {
         this.personalInfoService = personalInfoService;
         this.medicalNotesService = medicalNotesService;
         this.allergyService = allergyService;
+        this.prescriptionService = prescriptionService;
     }
 
     @PostMapping("/personal-info")
@@ -55,5 +58,11 @@ public class medicalHistoryController {
     @ResponseStatus(HttpStatus.CREATED)
     public void saveAllergy(@RequestBody AllergyRequestDto dto) {
         allergyService.saveAllergy(dto);
+    }
+
+    @PostMapping("/prescription")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void savePrescription(@RequestBody PrescriptionRequestDto dto) {
+        prescriptionService.savePrescription(dto);
     }
 }

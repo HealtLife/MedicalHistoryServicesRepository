@@ -24,8 +24,7 @@ public class Prescription {
 
     public Prescription() {}
 
-    public Prescription(Long id, String dni, String prescripcion, LocalDate fechaReceta, String medico) {
-        this.id = id;
+    public Prescription(String dni, String prescripcion, LocalDate fechaReceta, String medico) {
         this.dni = dni;
         this.prescripcion = prescripcion;
         this.fechaReceta = fechaReceta;
