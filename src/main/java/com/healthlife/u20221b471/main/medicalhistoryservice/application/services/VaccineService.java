@@ -48,4 +48,17 @@ public class VaccineService {
                 .toList(); // o .collect(Collectors.toList()) si estás usando Java 8
     }
 
+    @Transactional
+    public void updateVaccine(Long id, VaccineRequestDto dto) {
+        Vaccine existing = vaccinerepository.findById(String.valueOf(id))
+                .orElseThrow(() -> new EntityNotFoundException("Vacuna con ID " + id + " no encontrada."));
+
+        existing.setDni(dto.getDni());
+        existing.setDosis(dto.getDosis());
+        existing.setVacuna(dto.getVacuna());
+        existing.setFechaAplicacion(dto.getFechaAplicacion());
+
+        vaccinerepository.save(existing);
+    }
+
 }

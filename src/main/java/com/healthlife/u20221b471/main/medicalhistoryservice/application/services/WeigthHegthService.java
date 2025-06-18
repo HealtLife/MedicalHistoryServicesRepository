@@ -43,7 +43,20 @@ public class WeigthHegthService {
         }
         return weightheight.stream()
                 .map(mapper::toDto)
-                .toList(); // o .collect(Collectors.toList()) si estás usando Java 8
+                .toList();
+    }
+
+    @Transactional
+    public void updateWeightHeight(Long id, WeigthHegthDto dto) {
+        WeightHeightHistory existing = weigthHegthRepository.findById(String.valueOf(id))
+                .orElseThrow(() -> new EntityNotFoundException("Registro de peso y talla con ID " + id + " no encontrado."));
+
+        existing.setPeso(dto.getPeso());
+        existing.setAltura(dto.getAltura());
+        existing.setFechaRegistro(dto.getFechaRegistro());
+        existing.setDni(dto.getDni());
+
+        weigthHegthRepository.save(existing);
     }
 
 }

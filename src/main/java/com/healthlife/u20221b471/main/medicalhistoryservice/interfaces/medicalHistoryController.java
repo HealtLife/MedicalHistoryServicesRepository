@@ -55,12 +55,14 @@ public class medicalHistoryController {
     public void saveMedicalNote(@RequestBody MedicalNotesRequestDto dto) {
         medicalNotesService.saveMedicalNote(dto);
     }
-    /*@PostMapping("/medical-note")
-    public ResponseEntity<String> addNote(@RequestBody MedicalNotesRequestDto request) {
-        MedicalNotes note = new MedicalNotes(request.getDni(), request.getNotes(), request.getAutor(),request.getFecha_nota());
-        medicalNotesService.saveMedicalNote(note);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Nota médica agregada.");
-    }*/
+
+    @GetMapping("/medical-note/{dni}")
+    public ResponseEntity<List<MedicalNotesRequestDto>> getMedicalNotes(@PathVariable String dni) {
+        List<MedicalNotesRequestDto> dtos = medicalNotesService.getMedicalNotesByDni(dni);
+        return ResponseEntity.ok(dtos);
+
+    }
+
 
     @PostMapping("/allergies")
     @ResponseStatus(HttpStatus.CREATED)
@@ -109,7 +111,28 @@ public class medicalHistoryController {
         return ResponseEntity.ok(dtos);
     }
 
+    @PutMapping("/medical-note/{id}")
+    public void updateMedicalNote(@PathVariable Long id, @RequestBody MedicalNotesRequestDto dto) {
+        medicalNotesService.updateMedicalNote(id, dto);
+    }
 
+    @PutMapping("/allergies/{id}")
+    public void updateAllergy(@PathVariable Long id, @RequestBody AllergyRequestDto dto) {
+        allergyService.updateAllergy(id, dto);
+    }
 
+    @PutMapping("/prescription/{id}")
+    public void updatePrescription(@PathVariable Long id, @RequestBody PrescriptionRequestDto dto) {
+        prescriptionService.updatePrescription(id, dto);
+    }
+
+    @PutMapping("/vaccine/{id}")
+    public void updateVaccine(@PathVariable Long id, @RequestBody VaccineRequestDto dto) {
+        vaccineService.updateVaccine(id, dto);
+    }
+    @PutMapping("/weightheight/{id}")
+    public void updateWeightHeight(@PathVariable Long id, @RequestBody WeigthHegthDto dto) {
+        weigthHegthService.updateWeightHeight(id, dto);
+    }
 
 }

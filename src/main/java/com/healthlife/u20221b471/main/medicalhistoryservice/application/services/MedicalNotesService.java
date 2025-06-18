@@ -50,4 +50,18 @@ public class MedicalNotesService {
                 .toList(); // o .collect(Collectors.toList()) si estás usando Java 8
     }
 
+    @Transactional
+    public void updateMedicalNote(Long id, MedicalNotesRequestDto dto) {
+        MedicalNotes existing = medicalNotesRepository.findById(String.valueOf(id))
+                .orElseThrow(() -> new EntityNotFoundException("Nota médica con ID " + id + " no encontrada."));
+
+        existing.setFecha_nota(dto.getFecha_nota().toString());
+        existing.setNotes(dto.getNotes());
+        existing.setAutor(dto.getAutor());
+        existing.setDni(dto.getDni());
+
+        medicalNotesRepository.save(existing);
+    }
+
+
 }

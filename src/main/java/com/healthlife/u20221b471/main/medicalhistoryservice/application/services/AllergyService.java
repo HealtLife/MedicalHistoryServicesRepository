@@ -48,5 +48,16 @@ public class AllergyService {
                 .map(mapper::toDto)
                 .toList(); // o .collect(Collectors.toList()) si estás usando Java 8
     }
+    @Transactional
+    public void updateAllergy(Long id, AllergyRequestDto dto) {
+        Allergy existing = allergyRepository.findById(String.valueOf(id))
+                .orElseThrow(() -> new EntityNotFoundException("Alergia con ID " + id + " no encontrada."));
+
+        existing.setDni(dto.getDni());
+        existing.setAlergia(dto.getAlergia());
+        existing.setReaccion(dto.getReaccion());
+
+        allergyRepository.save(existing);
+    }
 
 }

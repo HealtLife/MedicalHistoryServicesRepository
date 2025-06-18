@@ -22,10 +22,6 @@ public class PrescriptionService {
     private final PersonalInfoRepository personalInfoRepository;
     private final PrescriptionMapper mapper;
 
-
-
-
-
     public PrescriptionService(PrescriptionRepository prescriptionRepository, PersonalInfoRepository personalInfoRepository, PrescriptionMapper map) {
         this.prescriptionRepository = prescriptionRepository;
         this.personalInfoRepository = personalInfoRepository;
@@ -53,6 +49,20 @@ public class PrescriptionService {
                 .map(mapper::toDto)
                 .toList(); // o .collect(Collectors.toList()) si estás usando Java 8
     }
+
+    @Transactional
+    public void updatePrescription(Long id, PrescriptionRequestDto dto) {
+        Prescription existing = prescriptionRepository.findById(String.valueOf(id))
+                .orElseThrow(() -> new EntityNotFoundException("Prescripción con ID " + id + " no encontrada."));
+
+        existing.setDni(dto.getDni());
+        existing.setFechaReceta(dto.getFecha_receta());
+        existing.setMedico(dto.getMedico());
+        existing.setPrescripcion(dto.getPrescripcion());
+
+        prescriptionRepository.save(existing);
+    }
+
 }
 
 /*
