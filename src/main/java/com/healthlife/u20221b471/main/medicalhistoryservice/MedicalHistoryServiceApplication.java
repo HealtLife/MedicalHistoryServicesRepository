@@ -11,7 +11,7 @@ import java.sql.*;
 public class MedicalHistoryServiceApplication {
 
 	public static void main(String[] args) {
-		createDatabaseIfNotExists("jdbc:postgresql://localhost:5432/", "postgres", "renato", "nutrimove_medicalhistory");
+		createDatabaseIfNotExists("jdbc:postgresql://localhost:5432/", "postgres", "12345678", "nutrimove_medicalhistory");
 
 		SpringApplication.run(MedicalHistoryServiceApplication.class, args);
 	}
